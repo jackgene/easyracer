@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"log"
 	"math/big"
 	"time"
@@ -21,19 +22,19 @@ func Fibonacci(n int) *big.Int {
 }
 
 func CancellableFibonacci(ctx context.Context, n int) (*big.Int, error) {
+	// In Go, nil conforms to context.Context. Check for nil, because we are not savages.
+	if ctx == nil {
+		return nil, errors.New("ctx cannot be nil")
+	}
 	fib, lastFib := big.NewInt(0), big.NewInt(1)
 	if n < 1 {
 		return fib, nil
 	}
-	yield := make(chan struct{}, 1)
 	for i := 0; i < n; i++ {
 		lastFib.Add(lastFib, fib)
 		lastFib, fib = fib, lastFib
-		yield <- struct{}{}
-		select {
-		case <-ctx.Done():
-			return nil, ctx.Err()
-		case <-yield:
+		if ctxErr := ctx.Err(); ctxErr != nil {
+			return nil, ctxErr
 		}
 	}
 
