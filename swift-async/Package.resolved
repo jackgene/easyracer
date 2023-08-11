@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "bigint",
+      "kind" : "localSourceControl",
+      "location" : "/Users/jleow/Development/3rdParty/BigInt",
+      "state" : {
+        "branch" : "unsafe-array-access",
+        "revision" : "081f3bc94ad02aa7a6276da2b343f245c7124443"
+      }
+    },
+    {
       "identity" : "docker-client-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/alexsteinerde/docker-client-swift.git",
@@ -50,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-nio.git",
       "state" : {
-        "revision" : "45167b8006448c79dda4b7bd604e07a034c15c49",
-        "version" : "2.48.0"
+        "revision" : "9b2848d76f5caad08b97e71a04345aa5bdb23a06",
+        "version" : "2.49.0"
       }
     },
     {
@@ -59,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-nio-extras.git",
       "state" : {
-        "revision" : "98378d1fe56527761c180f70b2d66a7b2307fc39",
-        "version" : "1.16.0"
+        "revision" : "cc1e5275079380c859417dbea8588531f1a90ec3",
+        "version" : "1.18.0"
       }
     },
     {
@@ -68,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-nio-http2.git",
       "state" : {
-        "revision" : "8dcda6828844022028025241e4e7d52cbbe250de",
-        "version" : "1.25.0"
+        "revision" : "38feec96bcd929028939107684073554bf01abeb",
+        "version" : "1.25.2"
       }
     },
     {

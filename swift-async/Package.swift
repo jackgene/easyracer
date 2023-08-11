@@ -9,12 +9,18 @@ let package = Package(
         .macOS(.v10_15)
     ],
     dependencies: [
+        .package(url: "file:///Users/jleow/Development/3rdParty/BigInt", branch: "unsafe-array-access"),
         .package(url: "https://github.com/alexsteinerde/docker-client-swift.git", from: "0.1.2"),
     ],
     targets: [
         .executableTarget(
             name: "EasyRacer",
             dependencies: []),
+        .executableTarget(
+            name: "Fibonacci",
+            dependencies: [
+                .product(name: "BigInt", package: "BigInt")
+            ]),
         .testTarget(
             name: "EasyRacerTests",
             dependencies: [
