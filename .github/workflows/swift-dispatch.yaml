@@ -22,7 +22,7 @@ jobs:
     - run: |
         brew install docker
         colima start --runtime docker
-        ln -s $HOME/.colima/default/docker.sock /var/run/docker.sock
+        sudo ln -s $HOME/.colima/default/docker.sock /var/run/docker.sock
         swift test -c release
     defaults:
       run:
