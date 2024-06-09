@@ -502,13 +502,13 @@ public struct EasyRacer {
         let scenarios = [
             (1, scenario1),
             (2, scenario2),
+            (3, scenario3),
             (4, scenario4),
             (5, scenario5),
             (6, scenario6),
             (7, scenario7),
             (8, scenario8),
             (9, scenario9),
-            (3, scenario3),
         ]
         let completions: DispatchSemaphore = DispatchSemaphore(value: 0)
         func sortResultsAndNotify(results: [(Int, String?)]) {
