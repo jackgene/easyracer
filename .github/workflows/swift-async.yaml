@@ -15,16 +15,15 @@
     - completed
 jobs:
   test:
-    runs-on: macos-12
+    runs-on: macos-latest
     if: ${{ github.event.workflow_run == null || github.event.workflow_run.conclusion == 'success' }}
     steps:
     - uses: actions/checkout@v4
-    - run: |
-        ulimit -n 10000
-        brew install docker
-        colima start --runtime docker
-        sudo ln -s $HOME/.colima/default/docker.sock /var/run/docker.sock
-        swift test -c release
+    - name: start scenario-server
+      run: ./sbt run &
+      working-directory: scenario-server
+    - name: run scenarios
+      run: swift run -c release
     defaults:
       run:
         working-directory: swift-async
