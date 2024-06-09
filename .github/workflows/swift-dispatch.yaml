@@ -18,15 +18,12 @@ jobs:
     runs-on: macos-12
     if: ${{ github.event.workflow_run == null || github.event.workflow_run.conclusion == 'success' }}
     env:
-      DOCKER_HOST: /Users/runner/.colima/default/docker.sock
+      DOCKER_HOST: unix:///Users/runner/.colima/default/docker.sock
     steps:
     - uses: actions/checkout@v4
     - run: |
         export
-        brew install docker
-        colima start --runtime docker
-        echo yo1
-        ls /var/run/docker.sock
+        colima start
         echo yo2
         ls $HOME/.colima
         echo yo3
