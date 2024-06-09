@@ -20,6 +20,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - run: |
+        ulimit -n 10000
         brew install docker
         colima start --runtime docker
         sudo ln -s $HOME/.colima/default/docker.sock /var/run/docker.sock
