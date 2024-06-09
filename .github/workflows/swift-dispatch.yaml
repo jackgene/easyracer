@@ -23,7 +23,8 @@ jobs:
     - uses: actions/checkout@v4
     - run: |
         export
-        colima start
+        brew install docker
+        colima start --runtime docker
         echo yo2
         ls $HOME/.colima
         echo yo3
