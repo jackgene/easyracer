@@ -22,7 +22,7 @@ jobs:
     - name: start scenario-server
       run: |
         ./sbt run &
-        sleep 60
+        sleep 10
       working-directory: scenario-server
     - name: run scenarios
       run: swift run -c release
