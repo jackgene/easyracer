@@ -20,7 +20,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: start scenario-server
-      run: ./sbt run &
+      run: |
+        ./sbt run &
+        sleep 60
       working-directory: scenario-server
     - name: run scenarios
       run: swift run -c release
