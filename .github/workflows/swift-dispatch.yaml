@@ -17,19 +17,12 @@ jobs:
   test:
     runs-on: macos-12
     if: ${{ github.event.workflow_run == null || github.event.workflow_run.conclusion == 'success' }}
-    env:
-      DOCKER_HOST: unix:///Users/runner/.colima/default/docker.sock
     steps:
     - uses: actions/checkout@v4
     - run: |
-        export
         brew install docker
         colima start --runtime docker
-        echo yo2
-        ls $HOME/.colima
-        echo yo3
-        ls $HOME/.colima/default
-        echo yo4
+        ln -s $HOME/.colima/default/docker.sock /var/run/docker.sock
         swift test -c release
     defaults:
       run:
