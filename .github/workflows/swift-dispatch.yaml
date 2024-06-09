@@ -25,8 +25,13 @@ jobs:
         export
         brew install docker
         colima start --runtime docker
+        echo yo1
+        ls /var/run/docker.sock
+        echo yo2
         ls $HOME/.colima
+        echo yo3
         ls $HOME/.colima/default
+        echo yo4
         swift test -c release
     defaults:
       run:
