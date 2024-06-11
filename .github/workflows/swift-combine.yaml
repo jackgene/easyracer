@@ -15,17 +15,17 @@
     - completed
 jobs:
   test:
-    runs-on: macos-latest
+    runs-on: macos-13
     if: ${{ github.event.workflow_run == null || github.event.workflow_run.conclusion == 'success' }}
     steps:
     - uses: actions/checkout@v4
-    - name: start scenario-server
+    - name: set up docker
       run: |
-        ./sbt run &
-        sleep 10
-      working-directory: scenario-server
+        brew install docker
+        brew install colima
+        colima start
     - name: run scenarios
-      run: swift run -c release
+      run: swift test -c release
     defaults:
       run:
         working-directory: swift-combine
