@@ -23,9 +23,10 @@ jobs:
       run: |
         brew install docker
         brew install colima
-        colima start --memory 8
-        colima ssh ulimit -n
-        colima ssh cat /etc/sysctl.conf
+        colima start
+        colima ssh -- ulimit -n
+        colima ssh -- ulimit -n 10240
+        colima ssh -- ulimit -n
         sudo ln -s $HOME/.colima/default/docker.sock /var/run/docker.sock
     - name: run scenarios
       run: swift test -c release
