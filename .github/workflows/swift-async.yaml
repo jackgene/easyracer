@@ -21,6 +21,7 @@ jobs:
     - uses: actions/checkout@v4
     - name: set up docker
       run: |
+        ulimit -n
         brew install docker
         brew install colima
         colima start
