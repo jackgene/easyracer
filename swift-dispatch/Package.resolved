@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/alexsteinerde/docker-client-swift.git",
       "state" : {
-        "revision" : "58d0a76818775bf91266c319efbc9301bcec0c56",
-        "version" : "0.1.2"
+        "branch" : "main",
+        "revision" : "ddb54abd091c49d02525c01a36955590df93d233"
       }
     },
     {
