@@ -24,6 +24,7 @@ jobs:
         brew install docker
         brew install colima
         colima start
+        sudo ln -s $HOME/.colima/default/docker.sock /var/run/docker.sock
     - name: run scenarios
       run: swift test -c release
     defaults:
