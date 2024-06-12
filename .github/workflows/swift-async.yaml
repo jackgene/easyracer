@@ -19,15 +19,13 @@ jobs:
     if: ${{ github.event.workflow_run == null || github.event.workflow_run.conclusion == 'success' }}
     steps:
     - uses: actions/checkout@v4
-    - name: set up docker
-      run: |
-        brew install docker
-        brew install colima
-        ulimit -n 32768
-        colima start
-        sudo ln -s $HOME/.colima/default/docker.sock /var/run/docker.sock
-    - name: run scenarios
-      run: swift test -c release
+    - uses: atomicjar/testcontainers-cloud-setup-action@v1
+      with:
+        token: ${{ secrets.TC_CLOUD_TOKEN }}
+    - run: |
+        brew install socat
+        cat ~/.testcontainers.properties
+        swift test -c release
     defaults:
       run:
         working-directory: swift-async
