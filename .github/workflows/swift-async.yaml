@@ -23,8 +23,9 @@ jobs:
       with:
         token: ${{ secrets.TC_CLOUD_TOKEN }}
     - run: |
-        brew install socat
+        export
         cat ~/.testcontainers.properties
+        brew install socat
         swift test -c release
     defaults:
       run:
