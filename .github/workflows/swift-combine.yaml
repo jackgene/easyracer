@@ -26,7 +26,7 @@ jobs:
         run: |
           brew install socat
           DOCKER_PORT=$(grep tc.host ~/.testcontainers.properties | cut -d: -f3)
-          sudo socat UNIX-LISTEN:/var/run/docker.sock,reuseaddr,fork TCP-CONNECT:127.0.0.1:$DOCKER_PORT
+          sudo socat UNIX-LISTEN:/var/run/docker.sock,reuseaddr,fork TCP-CONNECT:127.0.0.1:$DOCKER_PORT &
       - name: Run scenarios
         run: swift test -c release
     defaults:
