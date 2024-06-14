@@ -84,7 +84,11 @@ public struct EasyRacer {
             
             for i in 1...10_000 {
                 group.addTask {
-                    (try? await URLSession(configuration: urlSessionCfg).bodyText(from: url)) ?? "wrong-\(i)"
+                    do {
+                        return try await URLSession(configuration: urlSessionCfg).bodyText(from: url)
+                    } catch {
+                        return "req-\(i): \(error.localizedDescription)"
+                    }
                 }
             }
             
