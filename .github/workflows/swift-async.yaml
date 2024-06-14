@@ -29,9 +29,7 @@ jobs:
         sudo socat UNIX-LISTEN:/var/run/docker.sock,reuseaddr,fork TCP-CONNECT:127.0.0.1:$DOCKER_PORT &
         sleep 1
         sudo chmod a+rw /var/run/docker.sock
-        ps -e
-        ulimit -n 20480
-        ulimit -n
+        ulimit -n 1048576
     - name: Run scenarios
       run: swift test -c release
     defaults:
