@@ -87,7 +87,9 @@ public struct EasyRacer {
                     do {
                         return try await URLSession(configuration: urlSessionCfg).bodyText(from: url)
                     } catch {
-                        return "req-\(i): \(error.localizedDescription)"
+                        print("req-\(i)")
+                        print(error)
+                        return nil
                     }
                 }
             }
@@ -259,14 +261,14 @@ public struct EasyRacer {
     
     public func scenarios() async -> [String?] {
         [
-//            (1, await scenario1()),
-//            (2, await scenario2()),
-//            (4, await scenario4()),
-//            (5, await scenario5()),
-//            (6, await scenario6()),
-//            (7, await scenario7()),
-//            (8, await scenario8()),
-//            (9, await scenario9()),
+            (1, await scenario1()),
+            (2, await scenario2()),
+            (4, await scenario4()),
+            (5, await scenario5()),
+            (6, await scenario6()),
+            (7, await scenario7()),
+            (8, await scenario8()),
+            (9, await scenario9()),
             (3, await scenario3()), // This has to come last, as it frequently causes other scenarios to fail
         ].sorted { $0.0 < $1.0 }.map { $0.1 }
     }
