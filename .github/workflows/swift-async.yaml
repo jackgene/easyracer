@@ -22,12 +22,13 @@ jobs:
     - run: |
         curl https://desktop.docker.com/mac/main/arm64/Docker.dmg --output Docker.dmg
         sudo hdiutil attach Docker.dmg
-        /Volumes/Docker/Docker.app/Contents/MacOS/install --accept-license
+        sudo /Volumes/Docker/Docker.app/Contents/MacOS/install --accept-license
         sudo hdiutil detach /Volumes/Docker
-        ls ~/Library/Containers/com.docker.docker/Data
+        ls /Library/Containers/com.docker.docker/Data
         echo Opening...
-        "/Applications/Docker.app/Contents/MacOS/com.docker.admin"
-        "/Applications/Docker.app/Contents/MacOS/com.docker.backend"
+        sudo "/Applications/Docker.app/Contents/MacOS/com.docker.backend"
+        brew update
+        brew install docker
     - run: swift test -c release
     defaults:
       run:
