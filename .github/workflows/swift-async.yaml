@@ -19,9 +19,15 @@ jobs:
     if: ${{ github.event.workflow_run == null || github.event.workflow_run.conclusion == 'success' }}
     steps:
     - uses: actions/checkout@v4
-    - uses: atomicjar/testcontainers-cloud-setup-action@v1
-      with:
-        token: ${{ secrets.TC_CLOUD_TOKEN }}
+    - run: |
+        curl https://desktop.docker.com/mac/main/arm64/Docker.dmg --output Docker.dmg
+        sudo hdiutil attach Docker.dmg
+        sudo /Volumes/Docker/Docker.app/Contents/MacOS/install --accept-license
+        sudo hdiutil detach /Volumes/Docker
+        echo Opening...
+        open "/Application/Docker Desktop.app"
+        which docker
+        docker
     - run: swift test -c release
     defaults:
       run:
