@@ -24,12 +24,11 @@ jobs:
         sudo hdiutil attach Docker.dmg
         sudo /Volumes/Docker/Docker.app/Contents/MacOS/install --accept-license
         sudo hdiutil detach /Volumes/Docker
-        echo Opening...
-        "/Applications/Docker.app/Contents/MacOS/com.docker.diagnose"
-        "/Applications/Docker.app/Contents/MacOS/com.docker.admin"
-        "/Applications/Docker.app/Contents/MacOS/com.docker.backend"
         which docker
         docker
+        echo Opening...
+        "/Applications/Docker.app/Contents/MacOS/com.docker.admin"
+        "/Applications/Docker.app/Contents/MacOS/com.docker.backend"
     - run: swift test -c release
     defaults:
       run:
