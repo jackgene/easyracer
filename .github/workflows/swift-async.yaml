@@ -23,8 +23,8 @@ jobs:
         curl https://desktop.docker.com/mac/main/arm64/Docker.dmg --output Docker.dmg
         sudo hdiutil attach Docker.dmg
         sudo /Volumes/Docker/Docker.app/Contents/MacOS/install --accept-license --user=runner
-        echo Allegedly installed...
         sudo hdiutil detach /Volumes/Docker
+        sudo ls -ld /Applications/Docker.app
         sudo ls /Users/runner/Library/Containers
         echo Opening...
         sudo "/Applications/Docker.app/Contents/MacOS/com.docker.backend"
