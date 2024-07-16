@@ -24,7 +24,7 @@ jobs:
         sudo hdiutil attach Docker.dmg
         sudo /Volumes/Docker/Docker.app/Contents/MacOS/install --accept-license --user=runner
         sudo hdiutil detach /Volumes/Docker
-#        sudo "/Applications/Docker.app/Contents/MacOS/com.docker.backend" &
+        # sudo "/Applications/Docker.app/Contents/MacOS/com.docker.backend" &
         ls /usr/local/bin
     - run: swift test -c release
     defaults:
