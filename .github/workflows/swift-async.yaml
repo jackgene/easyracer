@@ -20,17 +20,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - run: |
+        mkdir -p ~/Library/Containers/com.docker.docker/Data
         curl https://desktop.docker.com/mac/main/arm64/Docker.dmg --output Docker.dmg
         sudo hdiutil attach Docker.dmg
         sudo /Volumes/Docker/Docker.app/Contents/MacOS/install --accept-license --user=runner
         sudo hdiutil detach /Volumes/Docker
-        echo ----
-        ls /Users/runner/Library/Containers
-        echo ----
-        ls /usr/local/bin
-        echo ----
-        ls /Applications/Docker.app/Contents/MacOS
-        #sudo "/Applications/Docker.app/Contents/MacOS/com.docker.backend" 2>/dev/null &
+        sudo "/Applications/Docker.app/Contents/MacOS/com.docker.backend" 2>/dev/null &
+        sleep 30
     - run: swift test -c release
     defaults:
       run:
