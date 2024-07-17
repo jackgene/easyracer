@@ -25,7 +25,7 @@ jobs:
         sudo hdiutil attach Docker.dmg
         sudo /Volumes/Docker/Docker.app/Contents/MacOS/install --accept-license --user=runner
         sudo hdiutil detach /Volumes/Docker
-        sudo "/Applications/Docker.app/Contents/MacOS/com.docker.backend" &
+        /Applications/Docker.app/Contents/MacOS/com.docker.backend -accept-license -unattended &
         sleep 60
         ls /var/run/*.sock
         docker ps
