@@ -1,7 +1,7 @@
 import capricious.RandomSize
 import com.sun.management.OperatingSystemMXBean
+import parasite.Worker
 import soundness.*
-import soundness.AsyncError.Reason.Cancelled
 import soundness.asyncTermination.cancel
 import soundness.executives.direct
 import soundness.internetAccess.enabled
@@ -101,14 +101,11 @@ def scenario10(scenarioUrl: Text => HttpUrl): Text raises HttpError raises Async
   val id = random[Int]()
   val messageDigest = MessageDigest.getInstance("SHA-512")
 
-  def blocking: Text =
+  def blocking(using Worker): Text =
     given RandomSize = (_: Random) => 512
     @tailrec def digest(bytes: Array[Byte]): Text raises AsyncError =
-      // TODO Does not work
-      // relent()
-      // digest(messageDigest.digest(bytes))
-      if Thread.interrupted() then abort(AsyncError(Cancelled))
-      else digest(messageDigest.digest(bytes))
+      relent()
+      digest(messageDigest.digest(bytes))
 
     digest(IArray.genericWrapArray(random[IArray[Byte]]()).toArray)
 
