@@ -1,7 +1,7 @@
 import capricious.RandomSize
 import com.sun.management.OperatingSystemMXBean
+import parasite.Worker
 import soundness.*
-import soundness.AsyncError.Reason.Timeout
 import soundness.asyncTermination.cancel
 import soundness.executives.direct
 import soundness.internetAccess.enabled
@@ -103,16 +103,11 @@ def scenario10(scenarioUrl: Text => HttpUrl): Text raises HttpError raises Async
   val id = random[Int]()
   val messageDigest = MessageDigest.getInstance("SHA-512")
 
-  def blocking: Text =
+  def blocking(using Worker): Text =
     given RandomSize = (_: Random) => 512
     @tailrec def digest(bytes: Array[Byte]): Text raises AsyncError =
-      // TODO
-      // Per parasite README, this is supposedly how you check for cancellation:
-      // https://github.com/propensive/parasite?tab=readme-ov-file#cancelation
-      // But it doesn't appear to be implemented yet
-      // acquiesce() // Does not compile
-      if Thread.interrupted() then abort(AsyncError(Timeout))
-      else digest(messageDigest.digest(bytes))
+      relent()
+      digest(messageDigest.digest(bytes))
 
     digest(IArray.genericWrapArray(random[IArray[Byte]]()).toArray)
 
