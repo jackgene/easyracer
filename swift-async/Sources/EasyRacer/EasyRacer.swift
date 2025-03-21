@@ -1,4 +1,5 @@
 import Foundation
+import Network
 
 extension URLSession {
     func bodyText(from url: URL) async throws -> String {
@@ -26,7 +27,7 @@ public struct EasyRacer: Sendable {
     let baseURL: URL
     let urlSession: some URLSession = ScalableURLSession(
         configuration: {
-            let configuration = URLSessionConfiguration.default
+            let configuration = URLSessionConfiguration.ephemeral
             configuration.httpMaximumConnectionsPerHost = 1_000
             configuration.timeoutIntervalForRequest = 120
             return configuration
