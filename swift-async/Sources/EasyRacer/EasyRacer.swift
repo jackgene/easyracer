@@ -26,7 +26,7 @@ public struct EasyRacer: Sendable {
     let baseURL: URL
     let urlSession: some URLSession = ScalableURLSession(
         configuration: {
-            let configuration = URLSessionConfiguration.ephemeral
+            let configuration = URLSessionConfiguration.default
             configuration.httpMaximumConnectionsPerHost = 1_000
             configuration.timeoutIntervalForRequest = 120
             return configuration
