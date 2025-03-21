@@ -1,4 +1,13 @@
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
+#if canImport(Darwin)
+let rusageSelf = RUSAGE_SELF
+#else
+let rusageSelf = RUSAGE_SELF.rawValue
+#endif
 
 extension URLSession {
     func bodyText(from url: URL) async throws -> String {
@@ -232,7 +241,7 @@ public struct EasyRacer: Sendable {
         func currentCPUTime() -> TimeInterval {
             var rusage: rusage = rusage()
             // Should never error as parameters are valid
-            getrusage(RUSAGE_SELF, &rusage)
+            getrusage(rusageSelf, &rusage)
             let utime = rusage.ru_utime
             let stime = rusage.ru_stime
             let secs = utime.tv_sec + stime.tv_sec
