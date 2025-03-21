@@ -1,4 +1,5 @@
 {
+  "originHash" : "e8bae374aba16c99db1d2d932ea78c1541ab6a60f38adaa5771371b99d37167a",
   "pins" : [
     {
       "identity" : "async-http-client",
@@ -14,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/alexsteinerde/docker-client-swift.git",
       "state" : {
-        "revision" : "58d0a76818775bf91266c319efbc9301bcec0c56",
-        "version" : "0.1.2"
+        "branch" : "main",
+        "revision" : "ddb54abd091c49d02525c01a36955590df93d233"
       }
     },
     {
@@ -91,5 +92,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
