@@ -1,5 +1,4 @@
 import Foundation
-import Network
 
 extension URLSession {
     func bodyText(from url: URL) async throws -> String {
