@@ -18,7 +18,7 @@ protocol URLSession: Sendable {
 extension FoundationURLSession: URLSession {
 #if canImport(FoundationNetworking)
     func data(from url: URL) async throws -> (Data, URLResponse) {
-        await withUnsafeContinuation { continuation in
+        await withUnsafeThrowingContinuation { continuation in
             dataTask(with: url) { data, response, error in
                 if let data = data, let response = response {
                     continuation.resume(returning: (data, response))
