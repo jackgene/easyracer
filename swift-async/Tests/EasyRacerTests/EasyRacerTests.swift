@@ -1,4 +1,4 @@
-import DockerClientSwift
+@preconcurrency import DockerClientSwift
 import Logging
 import XCTest
 @testable import EasyRacer
