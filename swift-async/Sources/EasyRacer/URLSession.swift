@@ -21,7 +21,7 @@ extension FoundationURLSession: URLSession {
         await withUnsafeContinuation { continuation in
             dataTask(with: url) { data, response, error in
                 if let data, let response = (data, response) {
-                    continuation.resume(returning: (Data, URLResponse))
+                    continuation.resume(returning: (data, response))
                 } else if let error = error {
                     continuation.resume(throwing: error)
                 } else {
