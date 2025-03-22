@@ -9,7 +9,7 @@ let package = Package(
         .macOS(.v13)
     ],
     dependencies: [
-        .package(url: "https://github.com/alexsteinerde/docker-client-swift.git", exact: "0.1.2"),
+        .package(url: "https://github.com/alexsteinerde/docker-client-swift.git", branch: "main"),
     ],
     targets: [
         .executableTarget(
