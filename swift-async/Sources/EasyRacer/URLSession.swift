@@ -1,4 +1,13 @@
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
+#if canImport(FoundationNetworking)
+typealias FoundationURLSession = FoundationNetworking.URLSession
+#else
+typealias FoundationURLSession = Foundation.URLSession
+#endif
 
 /// URLSession operations we actually use in Easy Racer
 protocol URLSession: Sendable {
@@ -6,7 +15,7 @@ protocol URLSession: Sendable {
 }
 
 /// Make sure the URLSession protocol isn't defining incompatible methods
-extension Foundation.URLSession: URLSession {
+extension FoundationURLSession: URLSession {
 }
 
 /// URLSession implementation that is able to handle 10k concurrent connections
@@ -22,7 +31,7 @@ actor ScalableURLSession: URLSession {
     private let requestsPerSession: UInt
     private let timeIntervalBetweenRequests: TimeInterval
     
-    private var currentDelegatee: Foundation.URLSession
+    private var currentDelegatee: FoundationURLSession
     private var currentRequestCount: UInt = 0
     private var nextRequestNotBefore: Date = .distantPast
     private var delegatee: Foundation.URLSession {
@@ -32,7 +41,7 @@ actor ScalableURLSession: URLSession {
                 return currentDelegatee
             } else {
                 currentDelegatee.finishTasksAndInvalidate()
-                currentDelegatee = Foundation.URLSession(configuration: configuration)
+                currentDelegatee = FoundationURLSession(configuration: configuration)
                 currentRequestCount = 0
                 
                 return currentDelegatee

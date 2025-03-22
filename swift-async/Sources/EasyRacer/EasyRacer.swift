@@ -94,7 +94,7 @@ public struct EasyRacer: Sendable {
     
     func scenario4() async -> String? {
         let url: URL = baseURL.appending(path: "4")
-        let urlSession1SecTimeout: URLSession = Foundation.URLSession(configuration: {
+        let urlSession1SecTimeout: URLSession = FoundationURLSession(configuration: {
             let configuration: URLSessionConfiguration = .ephemeral
             configuration.timeoutIntervalForRequest = 1
             return configuration
