@@ -16,6 +16,21 @@ protocol URLSession: Sendable {
 
 /// Make sure the URLSession protocol isn't defining incompatible methods
 extension FoundationURLSession: URLSession {
+#if canImport(FoundationNetworking)
+    func data(from url: URL) async throws -> (Data, URLResponse) {
+        await withUnsafeContinuation { continuation in
+            dataTask(with: url) { data, response, error in
+                if let data, let response = (data, response) {
+                    continuation.resume(returning: (Data, URLResponse))
+                } else if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    fatalError()
+                }
+            }
+        }
+    }
+#endif
 }
 
 /// URLSession implementation that is able to handle 10k concurrent connections
