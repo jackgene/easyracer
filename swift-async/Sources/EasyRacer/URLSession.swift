@@ -27,7 +27,7 @@ extension FoundationURLSession: URLSession {
                 } else {
                     fatalError()
                 }
-            }
+            }.resume()
         }
     }
 #endif
