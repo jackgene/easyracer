@@ -25,7 +25,7 @@ extension FoundationURLSession: URLSession {
                 } else if let error = error {
                     continuation.resume(throwing: error)
                 } else {
-                    fatalError()
+                    fatalError("data, response and error are all nil")
                 }
             }
         }
