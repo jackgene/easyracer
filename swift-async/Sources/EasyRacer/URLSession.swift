@@ -49,7 +49,7 @@ actor ScalableURLSession: URLSession {
     private var currentDelegatee: FoundationURLSession
     private var currentRequestCount: UInt = 0
     private var nextRequestNotBefore: Date = .distantPast
-    private var delegatee: Foundation.URLSession {
+    private var delegatee: FoundationURLSession {
         get {
             if currentRequestCount < requestsPerSession {
                 currentRequestCount += 1
@@ -72,7 +72,7 @@ actor ScalableURLSession: URLSession {
         self.configuration = configuration
         self.requestsPerSession = requestsPerSession
         self.timeIntervalBetweenRequests = timeIntervalBetweenRequests
-        self.currentDelegatee = Foundation.URLSession(
+        self.currentDelegatee = FoundationURLSession(
             configuration: configuration
         )
     }
