@@ -20,12 +20,12 @@ extension FoundationURLSession: URLSession {
     func data(from url: URL) async throws -> (Data, URLResponse) {
         await withUnsafeContinuation { continuation in
             dataTask(with: url) { data, response, error in
-                if let data, let response = (data, response) {
+                if let data = data, let response = response {
                     continuation.resume(returning: (data, response))
                 } else if let error = error {
                     continuation.resume(throwing: error)
                 } else {
-                    fatalError("data, response and error are all nil")
+                    fatalError()
                 }
             }
         }
