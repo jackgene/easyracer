@@ -1,5 +1,5 @@
 {
-  "originHash" : "e8bae374aba16c99db1d2d932ea78c1541ab6a60f38adaa5771371b99d37167a",
+  "originHash" : "27dbaf8b8a8cb311fc16585d39f537f804b98b566cd4f01c898276d58d80e407",
   "pins" : [
     {
       "identity" : "async-http-client",
@@ -11,12 +11,21 @@
       }
     },
     {
-      "identity" : "docker-client-swift",
+      "identity" : "bettercodable",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/alexsteinerde/docker-client-swift.git",
+      "location" : "https://github.com/marksands/BetterCodable.git",
+      "state" : {
+        "revision" : "61153170668db7a46a20a87e35e70f80b24d4eb5",
+        "version" : "0.4.0"
+      }
+    },
+    {
+      "identity" : "dockerswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jackgene/DockerSwift.git",
       "state" : {
         "branch" : "main",
-        "revision" : "ddb54abd091c49d02525c01a36955590df93d233"
+        "revision" : "43facbd3ebcb3584c913bec234b6181283346b82"
       }
     },
     {
@@ -134,6 +143,15 @@
       "state" : {
         "revision" : "a34201439c74b53f0fd71ef11741af7e7caf01e1",
         "version" : "1.4.2"
+      }
+    },
+    {
+      "identity" : "websocket-kit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/vapor/websocket-kit.git",
+      "state" : {
+        "revision" : "4232d34efa49f633ba61afde365d3896fc7f8740",
+        "version" : "2.15.0"
       }
     }
   ],
