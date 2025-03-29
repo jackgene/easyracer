@@ -178,8 +178,14 @@ clients = new Mapping<String, Run> {
   }
 
   ["swift-async"] = new {
-    `runs-on` = "macos-15"
-    steps = swiftSteps
+    steps {
+      new {
+        uses = "actions/checkout@v4"
+      }
+      new {
+        run = "swift test -c release"
+      }
+    }
   }
 
   ["swift-combine"] = new {
