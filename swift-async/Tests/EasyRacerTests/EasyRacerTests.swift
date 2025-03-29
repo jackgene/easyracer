@@ -1,4 +1,7 @@
 import DockerSwift
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import Logging
 import XCTest
 @testable import EasyRacer
