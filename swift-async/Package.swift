@@ -9,7 +9,7 @@ let package = Package(
         .macOS(.v13)
     ],
     dependencies: [
-        .package(url: "https://github.com/alexsteinerde/docker-client-swift.git", from: "0.1.2"),
+        .package(url: "https://github.com/jackgene/DockerSwift.git", branch: "main"),
     ],
     targets: [
         .executableTarget(
@@ -17,9 +17,6 @@ let package = Package(
             dependencies: []),
         .testTarget(
             name: "EasyRacerTests",
-            dependencies: [
-                "EasyRacer",
-                .product(name: "DockerClientSwift", package: "docker-client-swift")
-            ]),
+            dependencies: ["EasyRacer", "DockerSwift"]),
     ]
 )

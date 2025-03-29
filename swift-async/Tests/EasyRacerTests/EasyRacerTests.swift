@@ -1,4 +1,4 @@
-import DockerClientSwift
+import DockerSwift
 import Logging
 import XCTest
 @testable import EasyRacer
@@ -8,13 +8,22 @@ final class EasyRacerTests: XCTestCase {
         // Set up
         var logger = Logger(label: "docker-client")
         logger.logLevel = .error
-        let client = DockerClient(logger: logger)
-        let image = try await client.images
-            .pullImage(byName: "ghcr.io/jamesward/easyracer", tag: "latest").get()
-        let container = try await client.containers
-            .createContainer(image: image, portBindings: [PortBinding(containerPort: 8080)]).get()
-        let portBindings = try await container.start(on: client).get()
-        let randomPort = portBindings[0].hostPort
+        let docker = DockerClient(logger: logger)
+        let containerSpec = ContainerSpec(
+            config: .init(
+                image: "ghcr.io/jamesward/easyracer:latest",
+                exposedPorts: [.tcp(8080)]
+            ),
+            hostConfig: .init(
+                portBindings: [
+                    .tcp(8080): [.publishTo(hostIp: "0.0.0.0", hostPort: 0)]
+                ]
+            )
+        )
+        let container = try await docker.containers.create(spec: containerSpec)
+        try await docker.containers.start(container.id)
+        let runningContainer = try await docker.containers.get(container.id)
+        let randomPort = runningContainer.networkSettings.ports["8080/tcp"]!!.first!.hostPort
         let baseURL = URL(string: "http://localhost:\(randomPort)")!
         // Wait for scenario server to start handling HTTP requests
         while true {
@@ -35,8 +44,8 @@ final class EasyRacerTests: XCTestCase {
         }
         
         // Tear down
-        try? await client.containers.stop(container: container).get()
-        _ = try? await client.containers.prune().get()
-        try? client.syncShutdown()
+        try? await docker.containers.stop(container.id)
+        _ = try? await docker.containers.prune()
+        try? docker.syncShutdown()
     }
 }
