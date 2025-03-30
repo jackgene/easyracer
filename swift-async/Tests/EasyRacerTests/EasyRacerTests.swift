@@ -7,7 +7,7 @@ import XCTest
 @testable import EasyRacer
 
 final class EasyRacerTests: XCTestCase {
-    func testAllScenarios() async throws {
+    func testAllScenarios() async {
         // Set up
         var logger = Logger(label: "docker-client")
         logger.logLevel = .error
@@ -23,9 +23,19 @@ final class EasyRacerTests: XCTestCase {
                 ]
             )
         )
-        let container = try await docker.containers.create(spec: containerSpec)
-        try await docker.containers.start(container.id)
-        let runningContainer = try await docker.containers.get(container.id)
+        guard
+            let container = try? await docker.containers.create(spec: containerSpec)
+        else {
+            XCTFail("Failed to create container")
+            return
+        }
+        try? await docker.containers.start(container.id)
+        guard
+            let runningContainer = try? await docker.containers.get(container.id)
+        else {
+            XCTFail("Failed to start container")
+            return
+        }
         let randomPort = runningContainer.networkSettings.ports["8080/tcp"]!!.first!.hostPort
         let baseURL = URL(string: "http://localhost:\(randomPort)")!
         // Wait for scenario server to start handling HTTP requests
@@ -34,7 +44,7 @@ final class EasyRacerTests: XCTestCase {
                 _ = try await URLSession.shared.data(from: baseURL)
                 break
             } catch {
-                try await Task.sleep(nanoseconds: 10_000_000) // 10ms
+                try? await Task.sleep(nanoseconds: 10_000_000) // 10ms
                 continue
             }
         }
@@ -49,6 +59,6 @@ final class EasyRacerTests: XCTestCase {
         // Tear down
         try? await docker.containers.stop(container.id)
         _ = try? await docker.containers.prune()
-        try? docker.syncShutdown()
+        try? await docker.shutdown()
     }
 }
