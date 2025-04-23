@@ -1,7 +1,4 @@
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
 
 #if canImport(Darwin)
 let rusageSelf = RUSAGE_SELF
@@ -33,16 +30,7 @@ extension URLSession {
 @main
 public struct EasyRacer: Sendable {
     let baseURL: URL
-    let urlSession: some URLSession = ScalableURLSession(
-        configuration: {
-            let configuration = URLSessionConfiguration.ephemeral
-            configuration.httpMaximumConnectionsPerHost = 1_000
-            configuration.timeoutIntervalForRequest = 120
-            return configuration
-        }(),
-        requestsPerSession: 100,
-        timeIntervalBetweenRequests: 0.005 // 5ms
-    )
+    let urlSession: some URLSession = FoundationURLSession.shared
     
     func scenario1() async -> String? {
         let url: URL = baseURL.appending(path: "1")

@@ -10,27 +10,8 @@ typealias FoundationURLSession = Foundation.URLSession
 #endif
 
 /// URLSession operations we actually use in Easy Racer
-protocol URLSession: Sendable {
+public protocol URLSession: Sendable {
     func data(from url: URL) async throws -> (Data, URLResponse)
-}
-
-/// Make sure the URLSession protocol isn't defining incompatible methods
-extension FoundationURLSession: URLSession {
-#if canImport(FoundationNetworking)
-    func data(from url: URL) async throws -> (Data, URLResponse) {
-        try await withUnsafeThrowingContinuation { continuation in
-            dataTask(with: url) { data, response, error in
-                if let data = data, let response = response {
-                    continuation.resume(returning: (data, response))
-                } else if let error = error {
-                    continuation.resume(throwing: error)
-                } else {
-                    fatalError()
-                }
-            }.resume()
-        }
-    }
-#endif
 }
 
 /// URLSession implementation that is able to handle 10k concurrent connections
@@ -92,4 +73,40 @@ actor ScalableURLSession: URLSession {
         
         return try await delegatee.data(from: url)
     }
+}
+
+/// Make sure the URLSession protocol isn't defining incompatible methods
+extension FoundationURLSession: URLSession {
+    public class var shared: some URLSession {
+#if canImport(FoundationNetworking)
+        FoundationURLSession(configuration: .ephemeral)
+#else
+        ScalableURLSession(
+            configuration: {
+                let configuration = URLSessionConfiguration.ephemeral
+                configuration.httpMaximumConnectionsPerHost = 1_000
+                configuration.timeoutIntervalForRequest = 120
+                return configuration
+            }(),
+            requestsPerSession: 100,
+            timeIntervalBetweenRequests: 0.005 // 5ms
+        )
+#endif
+    }
+
+#if canImport(FoundationNetworking)
+    func data(from url: URL) async throws -> (Data, URLResponse) {
+        try await withUnsafeThrowingContinuation { continuation in
+            dataTask(with: url) { data, response, error in
+                if let data = data, let response = response {
+                    continuation.resume(returning: (data, response))
+                } else if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    fatalError()
+                }
+            }.resume()
+        }
+    }
+#endif
 }
