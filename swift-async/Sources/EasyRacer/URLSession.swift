@@ -14,6 +14,27 @@ public protocol URLSession: Sendable {
     func data(from url: URL) async throws -> (Data, URLResponse)
 }
 
+extension URLSession {
+    func bodyText(from url: URL) async throws -> String {
+        let (data, response) = try await data(from: url)
+        
+        guard
+            let response = response as? HTTPURLResponse,
+            200..<300 ~= response.statusCode
+        else {
+            throw URLError(.badServerResponse)
+        }
+        
+        guard
+            let text: String = String(data: data, encoding: .utf8)
+        else {
+            throw URLError(.cannotDecodeContentData)
+        }
+        
+        return text
+    }
+}
+
 /// URLSession implementation that is able to handle 10k concurrent connections
 ///
 ///  It does this by delegating to Foundation.URLSession, ensuring:
