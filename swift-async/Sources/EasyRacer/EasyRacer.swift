@@ -6,27 +6,6 @@ let rusageSelf = RUSAGE_SELF
 let rusageSelf = RUSAGE_SELF.rawValue
 #endif
 
-extension URLSession {
-    func bodyText(from url: URL) async throws -> String {
-        let (data, response) = try await data(from: url)
-        
-        guard
-            let response = response as? HTTPURLResponse,
-            200..<300 ~= response.statusCode
-        else {
-            throw URLError(.badServerResponse)
-        }
-        
-        guard
-            let text: String = String(data: data, encoding: .utf8)
-        else {
-            throw URLError(.cannotDecodeContentData)
-        }
-        
-        return text
-    }
-}
-
 @main
 public struct EasyRacer: Sendable {
     let baseURL: URL
