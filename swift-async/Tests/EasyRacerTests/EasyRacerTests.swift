@@ -60,6 +60,10 @@ final class EasyRacerTests: XCTestCase {
             let serverLogTask = Task {
                 let serverLogger = Logger(label: "easyracer-server")
                 for try await log in serverLogs {
+                    if Task.isCancelled {
+                        serverLogger.error("server log consumer cancelled")
+                        break
+                    }
                     serverLogger.info("\(log.message)")
                 }
             }
@@ -70,7 +74,7 @@ final class EasyRacerTests: XCTestCase {
             }
             
             // Tear down
-            let _ = await serverLogTask.result
+            serverLogTask.cancel()
             try? await docker.containers.stop(container.id)
         } catch {
             XCTFail("Failed to create container: \(error)")
