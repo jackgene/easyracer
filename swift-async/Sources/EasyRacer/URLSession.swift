@@ -103,11 +103,11 @@ extension FoundationURLSession: URLSession {
             configuration: {
                 let configuration = URLSessionConfiguration.ephemeral
                 configuration.httpMaximumConnectionsPerHost = 1_000
-                configuration.timeoutIntervalForRequest = 120
+                configuration.timeoutIntervalForRequest = 300
                 return configuration
             }(),
             requestsPerSession: 100,
-            timeIntervalBetweenRequests: 0.05 // 50ms
+            timeIntervalBetweenRequests: 0.01 // 10ms
         )
     }
 
