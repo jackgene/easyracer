@@ -107,7 +107,7 @@ extension FoundationURLSession: URLSession {
                 return configuration
             }(),
             requestsPerSession: 100,
-            timeIntervalBetweenRequests: 0.005 // 5ms
+            timeIntervalBetweenRequests: 0.05 // 50ms
         )
     }
 
