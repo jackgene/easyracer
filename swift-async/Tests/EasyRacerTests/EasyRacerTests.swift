@@ -21,6 +21,7 @@ final class EasyRacerTests: XCTestCase {
         let containerSpec = ContainerSpec(
             config: .init(
                 image: "ghcr.io/jamesward/easyracer:latest",
+                command: ["--debug"],
                 exposedPorts: [.tcp(8080)]
             ),
             hostConfig: .init(
@@ -53,6 +54,15 @@ final class EasyRacerTests: XCTestCase {
             }
             
             // Test
+            let serverLogs = try! await docker.containers.logs(
+                container: runningContainer, stdErr: false , follow: true
+            )
+            let serverLogTask = Task {
+                let serverLogger = Logger(label: "easyracer-server")
+                for try await log in serverLogs {
+                    serverLogger.info("\(log.message)")
+                }
+            }
             let results = await EasyRacer(baseURL: baseURL).scenarios()
             XCTAssertEqual(results.count, 11, "Number of Scenarios")
             for (idx, result) in results.enumerated() {
@@ -60,6 +70,7 @@ final class EasyRacerTests: XCTestCase {
             }
             
             // Tear down
+            let _ = await serverLogTask.result
             try? await docker.containers.stop(container.id)
         } catch {
             XCTFail("Failed to create container: \(error)")
