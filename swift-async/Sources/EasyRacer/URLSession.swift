@@ -99,9 +99,6 @@ actor ScalableURLSession: URLSession {
 /// Make sure the URLSession protocol isn't defining incompatible methods
 extension FoundationURLSession: URLSession {
     public class var shared: some URLSession {
-#if canImport(FoundationNetworking)
-        FoundationURLSession(configuration: .ephemeral)
-#else
         ScalableURLSession(
             configuration: {
                 let configuration = URLSessionConfiguration.ephemeral
@@ -112,7 +109,6 @@ extension FoundationURLSession: URLSession {
             requestsPerSession: 100,
             timeIntervalBetweenRequests: 0.005 // 5ms
         )
-#endif
     }
 
 #if canImport(FoundationNetworking)
