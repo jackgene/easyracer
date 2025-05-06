@@ -99,6 +99,18 @@ actor ScalableURLSession: URLSession {
 /// Make sure the URLSession protocol isn't defining incompatible methods
 extension FoundationURLSession: URLSession {
     public class var shared: some URLSession {
+#if canImport(FoundationNetworking)
+        ScalableURLSession(
+            configuration: {
+                let configuration = URLSessionConfiguration.ephemeral
+                configuration.httpMaximumConnectionsPerHost = 1_000
+                configuration.timeoutIntervalForRequest = 900
+                return configuration
+            }(),
+            requestsPerSession: 500,
+            timeIntervalBetweenRequests: 0.005 // 5ms
+        )
+#else
         ScalableURLSession(
             configuration: {
                 let configuration = URLSessionConfiguration.ephemeral
@@ -107,23 +119,14 @@ extension FoundationURLSession: URLSession {
                 return configuration
             }(),
             requestsPerSession: 100,
-            timeIntervalBetweenRequests: 0.02 // 20ms
+            timeIntervalBetweenRequests: 0.005 // 5ms
         )
+#endif
     }
-
 #if canImport(FoundationNetworking)
+    
     public func data(from url: URL) async throws -> (Data, URLResponse) {
-        try await withUnsafeThrowingContinuation { continuation in
-            dataTask(with: url) { data, response, error in
-                if let data = data, let response = response {
-                    continuation.resume(returning: (data, response))
-                } else if let error = error {
-                    continuation.resume(throwing: error)
-                } else {
-                    fatalError()
-                }
-            }.resume()
-        }
+        try await data(from: url, delegate: nil)
     }
 #endif
 }
