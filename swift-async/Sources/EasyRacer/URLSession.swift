@@ -104,7 +104,7 @@ extension FoundationURLSession: URLSession {
             configuration: {
                 let configuration = URLSessionConfiguration.ephemeral
                 configuration.httpMaximumConnectionsPerHost = 1_000
-                configuration.timeoutIntervalForRequest = 900
+                configuration.timeoutIntervalForRequest = 1_800
                 return configuration
             }(),
             requestsPerSession: 500,
