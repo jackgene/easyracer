@@ -108,7 +108,7 @@ extension FoundationURLSession: URLSession {
                 return configuration
             }(),
             requestsPerSession: 500,
-            timeIntervalBetweenRequests: 0.005 // 5ms
+            timeIntervalBetweenRequests: 0.0001 // 0.1ms
         )
 #else
         ScalableURLSession(
